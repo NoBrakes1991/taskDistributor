@@ -1,6 +1,6 @@
-package dao;
+package app.dao;
 
-import entities.Task;
+import app.entities.Task;
 import org.springframework.data.repository.CrudRepository;
 
 public interface Dao extends CrudRepository<Task, Long> {

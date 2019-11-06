@@ -15,7 +15,7 @@
 
 <br/><br/>
 <div>
-    <table border="2">
+    <table border="1">
         <tr>
             <th>ID</th>
             <th>Summary</th>
@@ -23,7 +23,7 @@
             <th>End Date</th>
             <th>Assignee</th>
         </tr>
-      </table>
+    </table>
 </div>
 
 
