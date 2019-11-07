@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!DOCTYPE HTML>
 <html>
@@ -57,8 +58,9 @@
             <tr>
                 <td>${task.id}</td>
                 <td>${task.summary}</td>
-                <td>${task.startDate.year+1900}-${task.startDate.month+1}-${task.startDate.date}</td>
-                <td>${task.endDate.year+1900}-${task.endDate.month+1}-${task.endDate.date}</td>
+                <fmt:setLocale value="en_US" />
+                <td><fmt:formatDate  pattern="dd/MMM/yyyy" value="${task.startDate}"/> </td>
+                <td><fmt:formatDate  pattern="dd/MMM/yyyy" value="${task.endDate}"/> </td>
                 <td>${task.assignee}</td>
             </tr>
         </c:forEach>
