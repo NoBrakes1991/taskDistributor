@@ -69,4 +69,15 @@ public class MainController {
         model.put("tasks", tasks);
         return "index";
     }
+    @PostMapping("filterByDateAndAssignee")
+    public String filterByAssignee(@RequestParam Date startDate,@RequestParam Date endDate, @RequestParam String assignee, Map<String, Object> model) {
+        Iterable<Task> tasks;
+        if (startDate != null && endDate !=null && assignee!=null && !assignee.isEmpty()) {
+            tasks = dao.findByAssigneeAndStartDateBetweenOrAssigneeAndEndDateBetween(assignee, startDate,endDate,assignee, startDate, endDate);
+        } else {
+            tasks = dao.findAll();
+        }
+        model.put("tasks", tasks);
+        return "index";
+    }
 }
