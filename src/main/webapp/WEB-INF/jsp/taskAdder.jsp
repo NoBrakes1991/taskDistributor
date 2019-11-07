@@ -9,8 +9,8 @@
 </head>
 <body>
 <div>
-    <form method="post">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <form method="post" action="add">
+        <input type="hidden" name="""${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="text" name="summary" placeholder="enter summary"/>
         <input type="text" name="assignee" placeholder="enter assignee"/>
         <input type="date" name="startDate" placeholder="enter start Date">

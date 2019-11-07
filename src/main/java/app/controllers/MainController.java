@@ -10,31 +10,28 @@ import org.springframework.web.bind.annotation.*;
 
 
 
+
 import java.util.*;
 
 @Controller
 public class MainController {
     @Autowired
     private Dao dao;
-    private static List<Task> taskList = new ArrayList<>();
+
 
     @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
     public String index(Model model) {
-        Iterable<Task> tasks = dao.findAll();
+        Iterable <Task> tasks = dao.findAll();
         model.addAttribute("tasks", tasks);
         return "index";
     }
 
     @RequestMapping(value = { "/taskAdder" }, method = RequestMethod.GET)
-    public String viewTaskAdder(Model model) {
-
-        Iterable<Task> tasks = dao.findAll();
-        model.addAttribute("tasks", tasks);
-
+    public String viewTaskAdder() {
         return "taskAdder";
     }
 
-    @PostMapping
+    @PostMapping("add")
     public String add(@RequestParam String summary, @RequestParam String assignee, @RequestParam Date startDate, @RequestParam Date endDate, Map<String, Object> model){
         Task task = new Task(summary, startDate, endDate,assignee);
         dao.save(task);
