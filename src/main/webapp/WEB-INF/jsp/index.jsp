@@ -23,6 +23,16 @@
             <th>End Date</th>
             <th>Assignee</th>
         </tr>
+        </tr>
+        <c:forEach  items="${tasks}" var ="task">
+            <tr>
+                <td>${task.id}</td>
+                <td>${task.summary}</td>
+                <td>${task.startDate.year+1900}-${task.startDate.month+1}-${task.startDate.date}</td>
+                <td>${task.endDate.year+1900}-${task.endDate.month+1}-${task.endDate.date}</td>
+                <td>${task.assignee}</td>
+            </tr>
+        </c:forEach>
     </table>
 </div>
 
