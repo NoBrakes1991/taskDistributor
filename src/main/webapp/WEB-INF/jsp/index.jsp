@@ -17,6 +17,12 @@
     <button type="submit">Find By Assignee</button>
 </form>
 
+<form method="post" action="filterByDate">
+    <input type="date" name="startDate">
+    <input type="date" name="endDate">
+    <button type="submit">Find By Date</button>
+</form>
+
 <div>
     <table border="1">
         <tr>
