@@ -34,19 +34,6 @@
 <form method="post" action="filterByDateAndAssignee">
     <input type="date" name="startDate">
     <input type="date" name="endDate">
-    <%--<input type="text" name="assignee">--%>
-
-    <%--<select name="assignee" class="button">--%>
-    <%--<c:forEach items="${tasks}" var="${assignee}">--%>
-    <%--<option value="${assignee.id}">${assignee.assignee}</option>--%>
-    <%--</c:forEach>--%>
-    <%--</select>--%>
-
-    <%--<form:select path="tasks" >--%>
-    <%--<form:option value="" label="All assignees"/>--%>
-    <%--<form:options items="${tasks}" itemValue="assignees" />--%>
-    <%--</form:select>--%>
-
     <select name="assignee" itemtype="text">
         <option value="" label="All assignees"/>
         <c:forEach items="${uniqAssignee}" var="assignee">

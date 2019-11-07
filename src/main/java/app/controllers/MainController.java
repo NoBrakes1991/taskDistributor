@@ -53,6 +53,8 @@ public class MainController {
         Task task = new Task(summary, startDate, endDate,assignee);
         dao.save(task);
         Iterable<Task> tasks = dao.findAll();
+        uniqAssignee.add(task.getAssignee());
+        model.put("uniqAssignee", uniqAssignee);
         model.put("tasks", tasks);
         return "index";
     }
@@ -80,13 +82,14 @@ public class MainController {
         return "index";
     }
     @PostMapping("filterByDateAndAssignee")
-    public String filterByAssignee(@RequestParam Date startDate,@RequestParam Date endDate, @RequestParam String assignee, Map<String, Object> model) {
+    public String filterDateAndAssignee(@RequestParam Date startDate,@RequestParam Date endDate, @RequestParam String assignee, Map<String, Object> model) {
         Iterable<Task> tasks;
         if (startDate != null && endDate !=null && assignee!=null && !assignee.isEmpty()) {
             tasks = dao.findByAssigneeAndStartDateBetweenOrAssigneeAndEndDateBetween(assignee, startDate,endDate,assignee, startDate, endDate);
         } else {
             tasks = dao.findAll();
         }
+        model.put("uniqAssignee", uniqAssignee);
         model.put("tasks", tasks);
         return "index";
     }
