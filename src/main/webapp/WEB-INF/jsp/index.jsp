@@ -10,10 +10,13 @@
 </head>
 <body>
 <h1>Welcome</h1>
-
 <h1>Tasks List</h1>
 
-<br/><br/>
+<form method="post" action="filterByAssignee">
+    <input type="text" name="assignee">
+    <button type="submit">Find By Assignee</button>
+</form>
+
 <div>
     <table border="1">
         <tr>

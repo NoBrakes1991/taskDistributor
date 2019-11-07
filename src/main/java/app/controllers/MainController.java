@@ -46,5 +46,11 @@ public class MainController {
         model.put("tasks", tasks);
         return "index";
     }
-
+    @PostMapping("filterByAssignee")
+    public String filterByAssignee(@RequestParam String assignee, Map<String, Object> model) {
+        Iterable<Task> tasks;
+        tasks = dao.findByAssignee(assignee);
+        model.put("tasks", tasks);
+        return "index";
+    }
 }
