@@ -18,6 +18,7 @@ import java.util.*;
 public class MainController {
     @Autowired
     private Dao dao;
+    static Set <String> uniqAssignee = new HashSet<>();
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder, Locale locale, HttpServletRequest request) {
@@ -30,6 +31,15 @@ public class MainController {
     public String index(Model model) {
         Iterable <Task> tasks = dao.findAll();
         model.addAttribute("tasks", tasks);
+
+        Iterable <Task> tasksForGetAssignee = dao.findAll();
+        List<Task> listOftasksForGetAssignee = new ArrayList<>();
+        tasksForGetAssignee.iterator().forEachRemaining(listOftasksForGetAssignee::add);
+
+        for (int i=0; i<listOftasksForGetAssignee.size();i++)
+        {uniqAssignee.add(listOftasksForGetAssignee.get(i).getAssignee());
+        }
+        model.addAttribute("uniqAssignee", uniqAssignee);
         return "index";
     }
 

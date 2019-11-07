@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE HTML>
 <html>
@@ -27,6 +28,31 @@
     <input type="date" name="startDate">
     <input type="date" name="endDate">
     <input type="text" name="assignee">
+    <button type="submit">Find By Date and Assignee</button>
+</form>
+
+<form method="post" action="filterByDateAndAssignee">
+    <input type="date" name="startDate">
+    <input type="date" name="endDate">
+    <%--<input type="text" name="assignee">--%>
+
+    <%--<select name="assignee" class="button">--%>
+    <%--<c:forEach items="${tasks}" var="${assignee}">--%>
+    <%--<option value="${assignee.id}">${assignee.assignee}</option>--%>
+    <%--</c:forEach>--%>
+    <%--</select>--%>
+
+    <%--<form:select path="tasks" >--%>
+    <%--<form:option value="" label="All assignees"/>--%>
+    <%--<form:options items="${tasks}" itemValue="assignees" />--%>
+    <%--</form:select>--%>
+
+    <select name="assignee" itemtype="text">
+        <option value="" label="All assignees"/>
+        <c:forEach items="${uniqAssignee}" var="assignee">
+            <option value="${assignee}"><c:out value="${assignee}" /></option>
+        </c:forEach>
+    </select>
     <button type="submit">Find By Date and Assignee</button>
 </form>
 
