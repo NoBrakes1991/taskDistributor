@@ -4,8 +4,8 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>taskDistributor</title>
-    <%--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css"/>--%>
+    <title>AddTask</title>
+
 </head>
 <body>
 <h1>${message}</h1>

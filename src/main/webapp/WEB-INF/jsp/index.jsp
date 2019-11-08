@@ -6,31 +6,12 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>Welcome</title>
-    <%--<link rel="stylesheet" type="text/css"--%>
-    <%--href="${pageContext.request.contextPath}/css/style.css"/>--%>
+    <title>TaskDistributor</title>
+
 </head>
 <body>
-<h1>Welcome</h1>
+
 <h1>Tasks List</h1>
-
-<%--<form method="post" action="filterByAssignee">--%>
-<%--<input type="text" name="assignee">--%>
-<%--<button type="submit">Find By Assignee</button>--%>
-<%--</form>--%>
-
-<%--<form method="post" action="filterByDate">--%>
-<%--<input type="date" name="startDate">--%>
-<%--<input type="date" name="endDate">--%>
-<%--<button type="submit">Find By Date</button>--%>
-<%--</form>--%>
-
-<%--<form method="post" action="filterByDateAndAssignee">--%>
-<%--<input type="date" name="startDate">--%>
-<%--<input type="date" name="endDate">--%>
-<%--<input type="text" name="assignee">--%>
-<%--<button type="submit">Find By Date and Assignee</button>--%>
-<%--</form>--%>
 
 <form method="post" action="filterByDateAndAssignee">
     <input type="date" name="startDate">
