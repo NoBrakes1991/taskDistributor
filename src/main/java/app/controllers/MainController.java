@@ -80,7 +80,7 @@ public class MainController {
     public String filterByDate(@RequestParam Date startDate,@RequestParam Date endDate, Map<String, Object> model) {
         Iterable<Task> tasks;
         if (startDate != null && endDate !=null) {
-            tasks = dao.findByStartDateBetweenOrEndDateBetween(startDate,endDate, startDate, endDate);
+            tasks = dao.findByStartDateBeforeAndEndDateAfterOrStartDateOrEndDate(startDate,endDate, startDate, endDate);
         } else {
             tasks = dao.findAll();
         }
@@ -91,8 +91,8 @@ public class MainController {
     public String filterDateAndAssignee(@RequestParam Date startDate,@RequestParam Date endDate, @RequestParam String assignee, Map<String, Object> model) {
         Iterable<Task> tasks;
         if (startDate != null && endDate !=null && assignee!=null && !assignee.isEmpty()) {
-            tasks = dao.findByAssigneeAndStartDateBetweenOrAssigneeAndEndDateBetween(assignee, startDate,endDate,assignee, startDate, endDate);
-        } else {
+            tasks = dao.findByAssigneeAndStartDateBeforeAndEndDateAfterOrAssigneeAndStartDateOrAssigneeAndEndDate(assignee,endDate,startDate,assignee,startDate,assignee,endDate);}
+            else {
             tasks = dao.findAll();
         }
         model.put("uniqAssignee", uniqAssignee);
