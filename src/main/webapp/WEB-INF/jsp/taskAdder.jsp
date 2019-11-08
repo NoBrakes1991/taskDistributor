@@ -22,14 +22,14 @@
 <h1></h1>
 <div class="container">
     <div class="row justify-content-md-center">
-        <h1>${message}</h1>
+        <h4>${message}</h4>
         <div>
             <form method="post" action="add">
                 <input type="hidden" name="""${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type="text" name="summary" placeholder="enter summary"/>
                 <input type="text" name="assignee" placeholder="enter assignee"/>
-                <input type="date" name="startDate" placeholder="enter start Date">
-                <input type="date" name="endDate" placeholder="enter end Date">
+                Start date: <input type="date" name="startDate" placeholder="enter start Date">
+                End date: <input type="date" name="endDate" placeholder="enter end Date">
                 <button type="submit">Add new Task</button>
             </form>
         </div>

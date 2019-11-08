@@ -3,6 +3,7 @@ package app.controllers;
 import app.dao.Dao;
 import app.entities.Task;
 import app.services.EndDayReplace;
+import app.services.MessageSelectedFilter;
 import app.services.StartDayReplace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -10,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
-
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -21,7 +20,6 @@ public class MainController {
     @Autowired
     private Dao dao;
     static Set<String> uniqAssignee = new HashSet<>();
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder, Locale locale, HttpServletRequest request) {
@@ -34,7 +32,6 @@ public class MainController {
     public String index(Model model) {
         Iterable<Task> tasks = dao.findAll();
         model.addAttribute("tasks", tasks);
-
         Iterable<Task> tasksForGetAssignee = dao.findAll();
         List<Task> listOfTasksForGetAssignee = new ArrayList<>();
         tasksForGetAssignee.iterator().forEachRemaining(listOfTasksForGetAssignee::add);
@@ -54,7 +51,7 @@ public class MainController {
     @PostMapping("add")
     public String add(@RequestParam String summary, @RequestParam String assignee, @RequestParam Date startDate, @RequestParam Date endDate, Map<String, Object> model) {
         if (startDate == null || endDate == null || assignee.isEmpty() || summary.isEmpty() || startDate.after(endDate)) {
-            model.put("message", "You choose incorrect parameters");
+            model.put("message", "You choose incorrect parameters! Please, check: 1)All fields is not Empty; 2) End date >= Start date.");
             return "taskAdder";
         } else {
             Task task = new Task(summary, startDate, endDate, assignee);
@@ -70,6 +67,7 @@ public class MainController {
     @PostMapping("filterByDateAndAssignee")
     public String filterDateAndAssignee(@RequestParam Date startDate, @RequestParam Date endDate, @RequestParam String period, @RequestParam String assignee, Map<String, Object> model) {
         Iterable<Task> tasks;
+
         if (!period.equals("")) {
             startDate = StartDayReplace.getDate(period);
             endDate = EndDayReplace.getDate(period);
@@ -89,12 +87,7 @@ public class MainController {
             model.put("messageNotFound", "Not found by your filter");
         }
 
-        if (startDate != null && endDate != null) {
-            model.put("messageSelectedFilter", "Selected parameters: startDate: " + sdf.format(startDate) + "     endDate: " + sdf.format(endDate) + " Assignee: " + assignee);
-        } else {
-            model.put("messageSelectedFilter", "Selected parameters: startDate:  - " + "     endDate: - " + " Assignee: " + assignee);
-        }
-
+        model.put("messageSelectedFilter", MessageSelectedFilter.getMessageSelectedFilter(assignee, startDate, endDate));
         model.put("uniqAssignee", uniqAssignee);
         model.put("tasks", tasks);
         return "index";
