@@ -20,7 +20,8 @@ import java.util.*;
 public class MainController {
     @Autowired
     private Dao dao;
-    static Set <String> uniqAssignee = new HashSet<>();
+    static Set<String> uniqAssignee = new HashSet<>();
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder, Locale locale, HttpServletRequest request) {
@@ -29,82 +30,70 @@ public class MainController {
         dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-    @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(Model model) {
-        Iterable <Task> tasks = dao.findAll();
+        Iterable<Task> tasks = dao.findAll();
         model.addAttribute("tasks", tasks);
 
-        Iterable <Task> tasksForGetAssignee = dao.findAll();
-        List<Task> listOftasksForGetAssignee = new ArrayList<>();
-        tasksForGetAssignee.iterator().forEachRemaining(listOftasksForGetAssignee::add);
+        Iterable<Task> tasksForGetAssignee = dao.findAll();
+        List<Task> listOfTasksForGetAssignee = new ArrayList<>();
+        tasksForGetAssignee.iterator().forEachRemaining(listOfTasksForGetAssignee::add);
 
-        for (int i=0; i<listOftasksForGetAssignee.size();i++)
-        {uniqAssignee.add(listOftasksForGetAssignee.get(i).getAssignee());
+        for (int i = 0; i < listOfTasksForGetAssignee.size(); i++) {
+            uniqAssignee.add(listOfTasksForGetAssignee.get(i).getAssignee());
         }
         model.addAttribute("uniqAssignee", uniqAssignee);
         return "index";
     }
 
-    @RequestMapping(value = { "/taskAdder" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/taskAdder"}, method = RequestMethod.GET)
     public String viewTaskAdder() {
         return "taskAdder";
     }
 
     @PostMapping("add")
-    public String add(@RequestParam String summary, @RequestParam String assignee, @RequestParam Date startDate, @RequestParam Date endDate, Map<String, Object> model){
-        if (startDate==null||endDate==null||assignee.isEmpty()||summary.isEmpty()||startDate.after(endDate)){
-            String message = "You choose incorrect parameters";
-            model.put("message", message);
+    public String add(@RequestParam String summary, @RequestParam String assignee, @RequestParam Date startDate, @RequestParam Date endDate, Map<String, Object> model) {
+        if (startDate == null || endDate == null || assignee.isEmpty() || summary.isEmpty() || startDate.after(endDate)) {
+            model.put("message", "You choose incorrect parameters");
             return "taskAdder";
+        } else {
+            Task task = new Task(summary, startDate, endDate, assignee);
+            dao.save(task);
+            Iterable<Task> tasks = dao.findAll();
+            uniqAssignee.add(task.getAssignee());
+            model.put("uniqAssignee", uniqAssignee);
+            model.put("tasks", tasks);
+            return "index";
         }
-        else {
-        Task task = new Task(summary, startDate, endDate,assignee);
-        dao.save(task);
-        Iterable<Task> tasks = dao.findAll();
-        uniqAssignee.add(task.getAssignee());
-        model.put("uniqAssignee", uniqAssignee);
-        model.put("tasks", tasks);
-        return "index";}
     }
-//    @PostMapping("filterByAssignee")
-//    public String filterByAssignee(@RequestParam String assignee, Map<String, Object> model) {
-//        Iterable<Task> tasks;
-//        if (assignee != null && !assignee.isEmpty()) {
-//            tasks = dao.findByAssignee(assignee);
-//        } else {
-//            tasks = dao.findAll();
-//        }
-//        model.put("tasks", tasks);
-//        return "index";
-//    }
-//
-//    @PostMapping("filterByDate")
-//    public String filterByDate(@RequestParam Date startDate,@RequestParam Date endDate, Map<String, Object> model) {
-//        Iterable<Task> tasks;
-//        if (startDate != null && endDate !=null) {
-//            tasks = dao.findByStartDateBeforeAndEndDateAfterOrStartDateOrEndDate(startDate,endDate, startDate, endDate);
-//        } else {
-//            tasks = dao.findAll();
-//        }
-//        model.put("tasks", tasks);
-//        return "index";
-//    }
-    @PostMapping("filterByDateAndAssignee")
-    public String filterDateAndAssignee(@RequestParam Date startDate,@RequestParam Date endDate, @RequestParam String period, @RequestParam String assignee, Map<String, Object> model) {
-        Iterable<Task> tasks;
-        if (!period.equals("")){
-            startDate = StartDayReplace.getDate(period);
-            endDate= EndDayReplace.getDate(period);
-            }
 
-        if (startDate==null && endDate==null  && !assignee.isEmpty() )
-        {tasks = dao.findByAssignee(assignee);}
-        else if  (startDate!=null && endDate!=null  && !assignee.isEmpty() )
-        {tasks = dao.findByAssigneeAndStartDateBeforeAndEndDateAfterOrAssigneeAndStartDateOrAssigneeAndEndDate(assignee,endDate,startDate,assignee,startDate,assignee,endDate);}
-        else if (startDate!=null && endDate!=null  && assignee.isEmpty() )
-        {tasks = dao.findByStartDateBeforeAndEndDateAfterOrStartDateOrEndDate(endDate,startDate,endDate,startDate);}
-        else
-        {tasks = dao.findAll();}
+    @PostMapping("filterByDateAndAssignee")
+    public String filterDateAndAssignee(@RequestParam Date startDate, @RequestParam Date endDate, @RequestParam String period, @RequestParam String assignee, Map<String, Object> model) {
+        Iterable<Task> tasks;
+        if (!period.equals("")) {
+            startDate = StartDayReplace.getDate(period);
+            endDate = EndDayReplace.getDate(period);
+        }
+
+        if (startDate == null && endDate == null && !assignee.isEmpty()) {
+            tasks = dao.findByAssignee(assignee);
+        } else if (startDate != null && endDate != null && !assignee.isEmpty()) {
+            tasks = dao.findByAssigneeAndStartDateBeforeAndEndDateAfterOrAssigneeAndStartDateOrAssigneeAndEndDate(assignee, endDate, startDate, assignee, startDate, assignee, endDate);
+        } else if (startDate != null && endDate != null && assignee.isEmpty()) {
+            tasks = dao.findByStartDateBeforeAndEndDateAfterOrStartDateOrEndDate(endDate, startDate, endDate, startDate);
+        } else {
+            tasks = dao.findAll();
+        }
+
+        if (!tasks.iterator().hasNext()) {
+            model.put("messageNotFound", "Not found by your filter");
+        }
+
+        if (startDate != null) {
+            model.put("messageSelectedFilter", "Selected parameters: startDate: " + sdf.format(startDate) + "     endDate: " + sdf.format(endDate) + " Assignee: " + assignee);
+        } else {
+            model.put("messageSelectedFilter", "Selected parameters: startDate:  - " + "     endDate: - " + " Assignee: " + assignee);
+        }
 
         model.put("uniqAssignee", uniqAssignee);
         model.put("tasks", tasks);

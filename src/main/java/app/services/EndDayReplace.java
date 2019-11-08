@@ -7,7 +7,6 @@ public class EndDayReplace {
 
     public static Date getDate(String period) {
         Date endDate = new Date();
-        System.out.println(period);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR,23);
         calendar.set(Calendar.MINUTE,59);
