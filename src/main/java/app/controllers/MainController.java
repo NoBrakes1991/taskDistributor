@@ -89,7 +89,7 @@ public class MainController {
             model.put("messageNotFound", "Not found by your filter");
         }
 
-        if (startDate != null) {
+        if (startDate != null && endDate != null) {
             model.put("messageSelectedFilter", "Selected parameters: startDate: " + sdf.format(startDate) + "     endDate: " + sdf.format(endDate) + " Assignee: " + assignee);
         } else {
             model.put("messageSelectedFilter", "Selected parameters: startDate:  - " + "     endDate: - " + " Assignee: " + assignee);
