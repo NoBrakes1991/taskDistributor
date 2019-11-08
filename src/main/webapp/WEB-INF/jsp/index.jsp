@@ -14,34 +14,43 @@
 <h1>Welcome</h1>
 <h1>Tasks List</h1>
 
-<form method="post" action="filterByAssignee">
-    <input type="text" name="assignee">
-    <button type="submit">Find By Assignee</button>
-</form>
+<%--<form method="post" action="filterByAssignee">--%>
+    <%--<input type="text" name="assignee">--%>
+    <%--<button type="submit">Find By Assignee</button>--%>
+<%--</form>--%>
 
-<form method="post" action="filterByDate">
-    <input type="date" name="startDate">
-    <input type="date" name="endDate">
-    <button type="submit">Find By Date</button>
-</form>
+<%--<form method="post" action="filterByDate">--%>
+    <%--<input type="date" name="startDate">--%>
+    <%--<input type="date" name="endDate">--%>
+    <%--<button type="submit">Find By Date</button>--%>
+<%--</form>--%>
+
+<%--<form method="post" action="filterByDateAndAssignee">--%>
+    <%--<input type="date" name="startDate">--%>
+    <%--<input type="date" name="endDate">--%>
+    <%--<input type="text" name="assignee">--%>
+    <%--<button type="submit">Find By Date and Assignee</button>--%>
+<%--</form>--%>
 
 <form method="post" action="filterByDateAndAssignee">
     <input type="date" name="startDate">
     <input type="date" name="endDate">
-    <input type="text" name="assignee">
-    <button type="submit">Find By Date and Assignee</button>
-</form>
-
-<form method="post" action="filterByDateAndAssignee">
-    <input type="date" name="startDate">
-    <input type="date" name="endDate">
+    <select name="period" itemtype="text">
+        <option value="" label="------Set Period------"/>
+        <option value="lastQuarter" label="Last Quarter"/>
+        <option value="lastMonth" label="Last Month"/>
+        <option value="lastWeek" label="Last Week"/>
+        <option value="currentQuarterToDate" label="Current Quarter to Date"/>
+        <option value="currentMonthToDate" label="Current Month to Date"/>
+        <option value="currentWeekToDate" label="Current Week to Date"/>
+    </select>
     <select name="assignee" itemtype="text">
         <option value="" label="All assignees"/>
         <c:forEach items="${uniqAssignee}" var="assignee">
             <option value="${assignee}"><c:out value="${assignee}" /></option>
         </c:forEach>
     </select>
-    <button type="submit">Find By Date and Assignee</button>
+    <button type="submit">Find</button>
 </form>
 
 <div>
