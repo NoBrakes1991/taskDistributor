@@ -63,7 +63,7 @@ public class MainController {
             uniqAssignee.add(task.getAssignee());
             model.put("uniqAssignee", uniqAssignee);
             model.put("tasks", tasks);
-            return "index";
+            return "redirect:/index";
         }
     }
 
