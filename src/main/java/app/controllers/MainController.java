@@ -50,13 +50,19 @@ public class MainController {
 
     @PostMapping("add")
     public String add(@RequestParam String summary, @RequestParam String assignee, @RequestParam Date startDate, @RequestParam Date endDate, Map<String, Object> model){
+        if (startDate==null||endDate==null||assignee.isEmpty()||summary.isEmpty()||startDate.after(endDate)){
+            String message = "You choose incorrect parameters";
+            model.put("message", message);
+            return "taskAdder";
+        }
+        else {
         Task task = new Task(summary, startDate, endDate,assignee);
         dao.save(task);
         Iterable<Task> tasks = dao.findAll();
         uniqAssignee.add(task.getAssignee());
         model.put("uniqAssignee", uniqAssignee);
         model.put("tasks", tasks);
-        return "index";
+        return "index";}
     }
     @PostMapping("filterByAssignee")
     public String filterByAssignee(@RequestParam String assignee, Map<String, Object> model) {

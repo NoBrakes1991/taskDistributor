@@ -8,6 +8,7 @@
     <%--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css"/>--%>
 </head>
 <body>
+<h1>${message}</h1>
 <div>
     <form method="post" action="add">
         <input type="hidden" name="""${_csrf.parameterName}" value="${_csrf.token}"/>
